@@ -4,7 +4,17 @@
 
 int N=10001;
 
+uint8_t dec(char c) {
+  if ('0' <= c && c <= '9') return c-'0';
+  if ('a' <= c && c <= 'f') return c-'a'+10;
+  return 0;
+}
+
 void hex_to_bin(char* s, uint8_t* b) {
+  int n = strlen(s);
+  for (int i=0, j=0; i<n; i+=2, j++) {
+    b[j] = dec(s[i]) * 16 + dec(s[i+1]);
+  }
 }
 
 void bin_to_hex(int n, uint8_t* b, char* s) {
