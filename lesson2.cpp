@@ -13,7 +13,8 @@ uint8_t dec(char c) {
 void hex_to_bin(char* s, uint8_t* b) {
   int n = strlen(s);
   for (int i=0, j=0; i<n; i+=2, j++) {
-    b[j] = dec(s[i]) * 16 + dec(s[i+1]);
+    // b[j] = dec(s[i]) * 16 + dec(s[i+1]);
+    b[j] = (dec(s[i]) << 4) | dec(s[i+1]);
   }
 }
 
@@ -26,10 +27,16 @@ char hex(uint8_t x) {
 
 void bin_to_hex(int n, uint8_t* b, char* s) {
   for (int i=0, j=0; i<n; i++, j+=2) {
-    s[j] = hex(b[i]/16);
-    s[j+1]=hex(b[i]%16);
+    // s[j] = hex(b[i]/16);
+    s[j] = b[i] >> 4;
+    // s[j+1]=hex(b[i]%16);
+    s[j+1] = b[i] & 0x0f;
   }
   s[2*n+1] = '\0';
+}
+
+void swap(int n, uint8_t* a, uint8_t* b) {
+ 
 }
 
 int main() {
@@ -47,8 +54,11 @@ int main() {
     printf("%d ",b[i]);
   printf("\n");
 
+  uint8_t* c = new uint8_t[m];
+  swap(m,b,c);
+
   char* t = new char[2*m+1];
-  bin_to_hex(m,b,t);
+  bin_to_hex(m,c,t);
 
   printf("%s\n",t);
 
